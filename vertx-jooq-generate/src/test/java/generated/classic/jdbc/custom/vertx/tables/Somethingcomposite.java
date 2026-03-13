@@ -107,7 +107,7 @@ public class Somethingcomposite extends TableImpl<SomethingcompositeRecord> {
 
     @Override
     public UniqueKey<SomethingcompositeRecord> getPrimaryKey() {
-        return Keys.SYS_PK_10466;
+        return Keys.SYS_PK_10286;
     }
 
     @Override

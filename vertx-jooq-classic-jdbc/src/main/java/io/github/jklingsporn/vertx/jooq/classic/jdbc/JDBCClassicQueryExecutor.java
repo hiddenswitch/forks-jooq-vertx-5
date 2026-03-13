@@ -22,17 +22,17 @@ public class JDBCClassicQueryExecutor<R extends UpdatableRecord<R>,P,T> extends 
 
     @Override
     public Future<List<P>> findMany(Function<DSLContext, ? extends ResultQuery<R>> queryFunction) {
-        return executeBlocking(h->h.complete(createQuery(queryFunction).fetchInto(daoType)));
+        return executeBlocking(() -> createQuery(queryFunction).fetchInto(daoType));
     }
 
     @Override
     public Future<P> findOne(Function<DSLContext, ? extends ResultQuery<R>> queryFunction) {
-        return executeBlocking(h->h.complete(createQuery(queryFunction).fetchOneInto(daoType)));
+        return executeBlocking(() -> createQuery(queryFunction).fetchOneInto(daoType));
     }
 
     @Override
     public Future<T> insertReturning(Function<DSLContext, ? extends InsertResultStep<R>> queryFunction,Function<Object,T> keyMapper) {
-        return executeBlocking(h->h.complete(keyMapper.apply(createQuery(queryFunction).fetchOne())));
+        return executeBlocking(() -> keyMapper.apply(createQuery(queryFunction).fetchOne()));
     }
 
 

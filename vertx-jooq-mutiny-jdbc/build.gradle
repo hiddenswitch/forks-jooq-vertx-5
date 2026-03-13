@@ -1,0 +1,3 @@
+dependencies {
+  api project(':vertx-jooq-fork:vertx-jooq-mutiny')
+}

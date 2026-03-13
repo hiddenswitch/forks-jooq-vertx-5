@@ -1,0 +1,25 @@
+subprojects {
+  apply plugin: 'java-library'
+  apply plugin: 'maven-publish'
+
+  group = 'io.github.jklingsporn'
+  version = '6.5.5'
+
+  java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+  }
+
+  repositories {
+    mavenCentral()
+  }
+
+  tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+  }
+
+  dependencies {
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation "ch.qos.logback:logback-classic:$logbackVersion"
+  }
+}

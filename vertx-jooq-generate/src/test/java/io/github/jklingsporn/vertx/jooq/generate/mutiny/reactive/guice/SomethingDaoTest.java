@@ -20,7 +20,7 @@ import org.jooq.Condition;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.reactivestreams.Subscription;
+import java.util.concurrent.Flow.Subscription;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -98,7 +98,7 @@ public class SomethingDaoTest extends MutinyTestBase<Something, Integer, Long, S
 
     @Override
     protected void assertDuplicateKeyException(Throwable x) {
-        assertException(PgException.class, x, pgException -> Assert.assertEquals("23505", pgException.getCode()));
+        assertException(PgException.class, x, pgException -> Assert.assertEquals("23505", pgException.getSqlState()));
     }
 
     //for now the tests have to be located in this class as transactions are only supported by the reactive driver

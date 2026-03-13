@@ -1,0 +1,20 @@
+dependencies {
+  api project(':vertx-jooq-fork:vertx-jooq-shared')
+  api "org.jooq:jooq-codegen:3.17.3"
+
+  testImplementation project(':vertx-jooq-fork:vertx-jooq-classic-jdbc')
+  testImplementation project(':vertx-jooq-fork:vertx-jooq-rx-jdbc')
+  testImplementation project(':vertx-jooq-fork:vertx-jooq-rx3-jdbc')
+  testImplementation project(':vertx-jooq-fork:vertx-jooq-classic-reactive')
+  testImplementation project(':vertx-jooq-fork:vertx-jooq-rx-reactive')
+  testImplementation project(':vertx-jooq-fork:vertx-jooq-rx3-reactive')
+  testImplementation project(':vertx-jooq-fork:vertx-jooq-mutiny-jdbc')
+  testImplementation project(':vertx-jooq-fork:vertx-jooq-mutiny-reactive')
+  testImplementation "io.vertx:vertx-pg-client:$vertxVersion"
+  testImplementation "io.vertx:vertx-mysql-client:$vertxVersion"
+  testImplementation "io.vertx:vertx-codegen:$vertxVersion"
+  testImplementation "org.hsqldb:hsqldb:2.6.1"
+  testImplementation "com.google.inject:guice:4.2.3"
+  testImplementation "org.postgresql:postgresql:$postgresqlVersion"
+  testImplementation "mysql:mysql-connector-java:8.0.28"
+}

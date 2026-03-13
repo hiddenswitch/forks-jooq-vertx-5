@@ -1,9 +1,9 @@
 package io.github.jklingsporn.vertx.jooq.generate;
 
 import io.vertx.core.Vertx;
-import io.vertx.mutiny.sqlclient.Pool;
+import io.vertx.mysqlclient.MySQLBuilder;
 import io.vertx.mysqlclient.MySQLConnectOptions;
-import io.vertx.mysqlclient.MySQLPool;
+import io.vertx.sqlclient.Pool;
 import io.vertx.sqlclient.PoolOptions;
 import io.vertx.sqlclient.SqlClient;
 
@@ -19,15 +19,15 @@ public class ReactiveMysqlDatabaseClientProvider {
     }
 
     private final Vertx vertx;
-    private final MySQLPool pgClient;
+    private final Pool pgClient;
     private final io.vertx.reactivex.sqlclient.SqlClient rxPgClient;
     private final io.vertx.mutiny.sqlclient.SqlClient mutinyClient;
 
     private ReactiveMysqlDatabaseClientProvider() {
         this.vertx = Vertx.vertx();
-        this.pgClient = MySQLPool.pool(vertx, getOptions(), new PoolOptions());
+        this.pgClient = MySQLBuilder.pool().connectingTo(getOptions()).with(new PoolOptions()).using(vertx).build();
         this.rxPgClient = new io.vertx.reactivex.sqlclient.Pool(pgClient);
-        this.mutinyClient = new Pool(pgClient);
+        this.mutinyClient = new io.vertx.mutiny.sqlclient.Pool(pgClient);
     }
 
     public SqlClient getClient() {

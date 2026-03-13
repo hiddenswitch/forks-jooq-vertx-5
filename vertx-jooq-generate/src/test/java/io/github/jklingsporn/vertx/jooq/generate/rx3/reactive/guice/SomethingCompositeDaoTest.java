@@ -75,7 +75,7 @@ public class SomethingCompositeDaoTest extends RX3TestBase<Somethingcomposite, R
 
     @Override
     protected void assertDuplicateKeyException(Throwable x) {
-        assertException(PgException.class, x, pgException -> Assert.assertEquals("23505", pgException.getCode()));
+        assertException(PgException.class, x, pgException -> Assert.assertEquals("23505", pgException.getSqlState()));
     }
 
 }

@@ -1,8 +1,9 @@
 package io.github.jklingsporn.vertx.jooq.generate;
 
 import io.vertx.core.Vertx;
+import io.vertx.pgclient.PgBuilder;
 import io.vertx.pgclient.PgConnectOptions;
-import io.vertx.pgclient.PgPool;
+import io.vertx.sqlclient.Pool;
 import io.vertx.sqlclient.PoolOptions;
 import io.vertx.sqlclient.SqlClient;
 
@@ -18,17 +19,17 @@ public class ReactiveDatabaseClientProvider {
     }
 
     private final Vertx vertx;
-    private final PgPool pgClient;
+    private final Pool pgClient;
     private final io.vertx.reactivex.sqlclient.SqlClient rxPgClient;
     private final io.vertx.rxjava3.sqlclient.SqlClient rx3PgClient;
     private final io.vertx.mutiny.sqlclient.SqlClient mutinyClient;
 
     private ReactiveDatabaseClientProvider() {
         this.vertx = Vertx.vertx();
-        this.pgClient = PgPool.pool(vertx, getOptions(), new PoolOptions().setMaxSize(POOL_SIZE));
-        this.rxPgClient = new io.vertx.reactivex.sqlclient.Pool(PgPool.pool(vertx, getOptions(), new PoolOptions().setMaxSize(POOL_SIZE)));
-        this.rx3PgClient = new io.vertx.rxjava3.sqlclient.Pool(PgPool.pool(vertx, getOptions(), new PoolOptions().setMaxSize(POOL_SIZE)));
-        this.mutinyClient = new io.vertx.mutiny.sqlclient.Pool(PgPool.pool(vertx, getOptions(), new PoolOptions().setMaxSize(POOL_SIZE)));
+        this.pgClient = PgBuilder.pool().connectingTo(getOptions()).with(new PoolOptions().setMaxSize(POOL_SIZE)).using(vertx).build();
+        this.rxPgClient = new io.vertx.reactivex.sqlclient.Pool(PgBuilder.pool().connectingTo(getOptions()).with(new PoolOptions().setMaxSize(POOL_SIZE)).using(vertx).build());
+        this.rx3PgClient = new io.vertx.rxjava3.sqlclient.Pool(PgBuilder.pool().connectingTo(getOptions()).with(new PoolOptions().setMaxSize(POOL_SIZE)).using(vertx).build());
+        this.mutinyClient = new io.vertx.mutiny.sqlclient.Pool(PgBuilder.pool().connectingTo(getOptions()).with(new PoolOptions().setMaxSize(POOL_SIZE)).using(vertx).build());
     }
 
     public SqlClient getClient() {

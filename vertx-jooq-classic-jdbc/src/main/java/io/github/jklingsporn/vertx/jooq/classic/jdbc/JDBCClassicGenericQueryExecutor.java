@@ -6,15 +6,12 @@ import io.github.jklingsporn.vertx.jooq.shared.internal.QueryResult;
 import io.github.jklingsporn.vertx.jooq.shared.internal.jdbc.JDBCQueryResult;
 import io.github.jklingsporn.vertx.jooq.shared.internal.jdbc.JDBCQueryExecutor;
 import io.vertx.core.Future;
-import io.vertx.core.Handler;
-import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
-import io.vertx.core.impl.ContextInternal;
-import io.vertx.core.impl.future.PromiseImpl;
 import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
 
+import java.util.concurrent.Callable;
 import java.util.function.Function;
 
 /**
@@ -31,22 +28,20 @@ public class JDBCClassicGenericQueryExecutor extends AbstractQueryExecutor imple
 
     @Override
     public <X> Future<X> executeAny(Function<DSLContext, X> function){
-        return executeBlocking(h -> h.complete(function.apply(DSL.using(configuration()))));
+        return executeBlocking(() -> function.apply(DSL.using(configuration())));
     }
 
-    protected <X> Future<X> executeBlocking(Handler<Promise<X>> blockingCodeHandler){
-        Promise<X> promise = new PromiseImpl<>((ContextInternal) vertx.getOrCreateContext());
-        vertx.executeBlocking(blockingCodeHandler,false,promise);
-        return promise.future();
+    protected <X> Future<X> executeBlocking(Callable<X> blockingCallable){
+        return vertx.executeBlocking(blockingCallable, false);
     }
 
     @Override
     public Future<Integer> execute(Function<DSLContext, ? extends Query> queryFunction) {
-        return executeBlocking(h->h.complete(createQuery(queryFunction).execute()));
+        return executeBlocking(() -> createQuery(queryFunction).execute());
     }
 
     @Override
     public <R extends Record> Future<QueryResult> query(Function<DSLContext, ? extends ResultQuery<R>> queryFunction) {
-        return executeBlocking(h -> h.complete(new JDBCQueryResult(createQuery(queryFunction).fetch())));
+        return executeBlocking(() -> new JDBCQueryResult(createQuery(queryFunction).fetch()));
     }
 }

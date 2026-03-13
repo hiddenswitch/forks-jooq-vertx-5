@@ -1,0 +1,6 @@
+dependencies {
+  api project(':vertx-jooq-fork:vertx-jooq-mutiny')
+  api project(':vertx-jooq-fork:vertx-jooq-shared-reactive')
+  api "io.smallrye.reactive:smallrye-mutiny-vertx-sql-client:4.0.0-beta0"
+  implementation "org.slf4j:slf4j-api:$slf4jVersion"
+}

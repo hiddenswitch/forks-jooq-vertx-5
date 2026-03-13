@@ -102,7 +102,7 @@ public class SomethingDaoTest extends ClassicTestBase<Something, Integer, Long, 
     protected void assertDuplicateKeyException(Throwable x) {
         Assert.assertEquals(PgException.class, x.getClass());
         PgException pgException = (PgException) x;
-        Assert.assertEquals("23505", pgException.getCode());
+        Assert.assertEquals("23505", pgException.getSqlState());
     }
 
     @Test

@@ -1,0 +1,5 @@
+dependencies {
+  api project(':vertx-jooq-fork:vertx-jooq-shared')
+  api "io.reactivex.rxjava3:rxjava:$rxJavaVersion"
+  api "io.vertx:vertx-rx-java3:$vertxVersion"
+}

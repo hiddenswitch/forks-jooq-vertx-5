@@ -50,12 +50,12 @@ public class ReactiveMutinyGenericQueryExecutor extends AbstractReactiveQueryExe
                         .collect(Collectors.toList()));
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     /**
      * for some reason getDelegate returns untyped version
      */
     io.vertx.sqlclient.RowSet<Row> mutinyGetDelegate(RowSet<io.vertx.mutiny.sqlclient.Row> res) {
-        return res.getDelegate();
+        return (io.vertx.sqlclient.RowSet) res.getDelegate();
     }
 
     @Override
@@ -242,7 +242,7 @@ public class ReactiveMutinyGenericQueryExecutor extends AbstractReactiveQueryExe
                                         .call(() -> {
                                             Future<Void> commit = tx.getDelegate().commit();
                                             commit.onComplete(commitHandler);
-                                            Future<Void> close = commit.eventually(v -> conn.getDelegate().close()).onComplete(closeHandler);
+                                            Future<Void> close = commit.eventually(() -> conn.getDelegate().close()).onComplete(closeHandler);
                                             return UniHelper.toUni(close);
                                         })
                         )

@@ -23,16 +23,16 @@ public class JDBCRXQueryExecutor<R extends UpdatableRecord<R>,P,T> extends JDBCR
 
     @Override
     public Single<List<P>> findMany(Function<DSLContext, ? extends ResultQuery<R>> queryFunction) {
-        return executeBlocking(h -> h.complete(createQuery(queryFunction).fetchInto(daoType)));
+        return executeBlocking(() -> createQuery(queryFunction).fetchInto(daoType));
     }
 
     @Override
     public Single<Optional<P>> findOne(Function<DSLContext, ? extends ResultQuery<R>> queryFunction) {
-        return executeBlocking(h -> h.complete(Optional.ofNullable(createQuery(queryFunction).fetchOneInto(daoType))));
+        return executeBlocking(() -> Optional.ofNullable(createQuery(queryFunction).fetchOneInto(daoType)));
     }
 
     @Override
     public Single<T> insertReturning(Function<DSLContext, ? extends InsertResultStep<R>> queryFunction,Function<Object,T> keyMapper) {
-        return executeBlocking(h -> h.complete(keyMapper.apply(createQuery(queryFunction).fetchOne())));
+        return executeBlocking(() -> keyMapper.apply(createQuery(queryFunction).fetchOne()));
     }
 }

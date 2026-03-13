@@ -5,7 +5,6 @@ import io.github.jklingsporn.vertx.jooq.shared.internal.AbstractVertxDAO;
 import io.github.jklingsporn.vertx.jooq.shared.internal.GenericVertxDAO;
 import io.github.jklingsporn.vertx.jooq.shared.internal.QueryResult;
 import io.vertx.core.AsyncResult;
-import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import org.jooq.*;
@@ -158,7 +157,7 @@ public abstract class ClassicTestBase<P,T,O, DAO extends GenericVertxDAO<?,P, T,
         O someO = createSomeO();
         Future<T> insertFuture1 = insertAndReturn(setSomeO(create(), someO));
         Future<T> insertFuture2 = insertAndReturn(setSomeO(create(), someO));
-        CompositeFuture.all(insertFuture1, insertFuture2).
+        Future.all(insertFuture1, insertFuture2).
                 compose(v -> dao.findOneByCondition(otherfield.eq(someO))).
                 otherwise((x) -> {
                     Assert.assertNotNull(x);
@@ -177,7 +176,7 @@ public abstract class ClassicTestBase<P,T,O, DAO extends GenericVertxDAO<?,P, T,
         O someO = createSomeO();
         Future<T> insertFuture1 = insertAndReturn(setSomeO(create(), someO));
         Future<T> insertFuture2 = insertAndReturn(setSomeO(create(), someO));
-        CompositeFuture.all(insertFuture1, insertFuture2).
+        Future.all(insertFuture1, insertFuture2).
                 compose(v -> dao.findManyByCondition(otherfield.eq(someO))).
                 map(toVoid(values -> Assert.assertEquals(2, values.size()))).
                 compose(v -> dao.deleteByCondition(otherfield.eq(someO))).
@@ -191,7 +190,7 @@ public abstract class ClassicTestBase<P,T,O, DAO extends GenericVertxDAO<?,P, T,
         CountDownLatch latch = new CountDownLatch(1);
         Future<T> insertFuture1 = insertAndReturn(create());
         Future<T> insertFuture2 = insertAndReturn(create());
-        CompositeFuture.all(insertFuture1, insertFuture2).
+        Future.all(insertFuture1, insertFuture2).
                 compose(v -> dao.findAll()).
                 map(toVoid(list -> {
                     Assert.assertNotNull(list);
@@ -334,7 +333,7 @@ public abstract class ClassicTestBase<P,T,O, DAO extends GenericVertxDAO<?,P, T,
         CountDownLatch latch = new CountDownLatch(1);
         Future<T> insertFuture1 = insertAndReturn(create());
         Future<T> insertFuture2 = insertAndReturn(create());
-        CompositeFuture.all(insertFuture1, insertFuture2).
+        Future.all(insertFuture1, insertFuture2).
                 compose(v -> dao.findManyByCondition(DSL.trueCondition(),1)).
                 map(toVoid(list -> {
                     Assert.assertNotNull(list);

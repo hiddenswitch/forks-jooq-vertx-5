@@ -17,7 +17,7 @@ abstract class AbstractDatabaseConfigurationProvider {
     private static final String TARGET_FOLDER = "src/test/java";
 
     static{
-        System.setProperty("vertx.logger-delegate-factory-class-name","io.vertx.core.logging.SLF4JLogDelegateFactory");
+        // Vert.x 5 uses SLF4J natively, no delegate factory needed
     }
 
     public abstract void setupDatabase() throws Exception;

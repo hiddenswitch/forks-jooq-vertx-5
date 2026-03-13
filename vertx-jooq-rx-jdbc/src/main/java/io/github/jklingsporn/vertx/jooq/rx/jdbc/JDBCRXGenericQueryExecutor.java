@@ -6,13 +6,12 @@ import io.github.jklingsporn.vertx.jooq.shared.internal.QueryResult;
 import io.github.jklingsporn.vertx.jooq.shared.internal.jdbc.JDBCQueryResult;
 import io.github.jklingsporn.vertx.jooq.shared.internal.jdbc.JDBCQueryExecutor;
 import io.reactivex.Single;
-import io.vertx.core.Handler;
-import io.vertx.reactivex.core.Promise;
 import io.vertx.reactivex.core.Vertx;
 import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
 
+import java.util.concurrent.Callable;
 import java.util.function.Function;
 
 /**
@@ -29,20 +28,20 @@ public class JDBCRXGenericQueryExecutor extends AbstractQueryExecutor implements
 
     @Override
     public <X> Single<X> executeAny(Function<DSLContext, X> function){
-        return executeBlocking(h -> h.complete(function.apply(DSL.using(configuration()))));
+        return executeBlocking(() -> function.apply(DSL.using(configuration())));
     }
 
-    <X> Single<X> executeBlocking(Handler<Promise<X>> blockingCodeHandler) {
-        return RXTool.executeBlocking(blockingCodeHandler, vertx);
+    <X> Single<X> executeBlocking(Callable<X> blockingCallable) {
+        return RXTool.executeBlocking(blockingCallable, vertx);
     }
 
     @Override
     public Single<Integer> execute(Function<DSLContext, ? extends Query> queryFunction) {
-        return executeBlocking(h -> h.complete(createQuery(queryFunction).execute()));
+        return executeBlocking(() -> createQuery(queryFunction).execute());
     }
 
     @Override
     public <R extends Record> Single<QueryResult> query(Function<DSLContext, ? extends ResultQuery<R>> queryFunction) {
-        return executeBlocking(h -> h.complete(new JDBCQueryResult(createQuery(queryFunction).fetch())));
+        return executeBlocking(() -> new JDBCQueryResult(createQuery(queryFunction).fetch()));
     }
 }

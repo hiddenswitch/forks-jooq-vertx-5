@@ -21,7 +21,7 @@ import org.jooq.Condition;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.reactivestreams.Subscription;
+import java.util.concurrent.Flow.Subscription;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

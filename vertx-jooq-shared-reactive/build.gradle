@@ -1,0 +1,5 @@
+dependencies {
+  api project(':vertx-jooq-fork:vertx-jooq-shared')
+  api "io.vertx:vertx-sql-client:$vertxVersion"
+  implementation "org.slf4j:slf4j-api:$slf4jVersion"
+}

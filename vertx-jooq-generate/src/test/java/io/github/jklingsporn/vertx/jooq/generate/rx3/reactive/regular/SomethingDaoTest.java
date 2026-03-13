@@ -100,7 +100,7 @@ public class SomethingDaoTest extends RX3TestBase<Something, Integer, Long, Some
 
     @Override
     protected void assertDuplicateKeyException(Throwable x) {
-        assertException(PgException.class, x, pgException -> Assert.assertEquals("23505", pgException.getCode()));
+        assertException(PgException.class, x, pgException -> Assert.assertEquals("23505", pgException.getSqlState()));
     }
 
     //for now the tests have to be located in this class as transactions are only supported by the reactive driver

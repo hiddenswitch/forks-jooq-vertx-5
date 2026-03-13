@@ -1,0 +1,5 @@
+dependencies {
+  api project(':vertx-jooq-fork:vertx-jooq-shared')
+  api "io.smallrye.reactive:mutiny:3.1.1"
+  api "io.smallrye.reactive:smallrye-mutiny-vertx-core:4.0.0-beta0"
+}

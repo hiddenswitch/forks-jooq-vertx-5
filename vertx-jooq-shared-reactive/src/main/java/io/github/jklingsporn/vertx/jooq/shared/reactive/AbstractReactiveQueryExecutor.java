@@ -3,10 +3,10 @@ package io.github.jklingsporn.vertx.jooq.shared.reactive;
 import io.github.jklingsporn.vertx.jooq.shared.internal.AbstractQueryExecutor;
 import io.github.jklingsporn.vertx.jooq.shared.postgres.PgConverter;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
 import io.vertx.sqlclient.Tuple;
-import io.vertx.sqlclient.impl.ArrayTuple;
+import io.vertx.sqlclient.internal.ArrayTuple;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jooq.*;
 import org.jooq.conf.ParamType;
 

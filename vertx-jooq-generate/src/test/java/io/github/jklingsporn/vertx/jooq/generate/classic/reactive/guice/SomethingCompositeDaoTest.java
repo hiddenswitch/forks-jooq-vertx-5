@@ -77,7 +77,7 @@ public class SomethingCompositeDaoTest extends ClassicTestBase<Somethingcomposit
     protected void assertDuplicateKeyException(Throwable x) {
         Assert.assertEquals(PgException.class, x.getClass());
         PgException pgException = (PgException) x;
-        Assert.assertEquals("23505", pgException.getCode());
+        Assert.assertEquals("23505", pgException.getSqlState());
     }
 
 }

@@ -30,8 +30,7 @@ public class RXToolTest {
     @Test
     public void executeBlockingShouldCompleteSingle() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(1);
-        queryExecutor.executeBlocking(h -> {
-        })
+        queryExecutor.executeBlocking(() -> null)
             .subscribe(v -> countDownLatch.countDown());
         countDownLatch.await(1, TimeUnit.SECONDS);
     }
@@ -39,7 +38,7 @@ public class RXToolTest {
     @Test
     public void executeBlockingShouldFailSingleOnException() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(1);
-        queryExecutor.executeBlocking(h -> {
+        queryExecutor.executeBlocking(() -> {
             throw new RuntimeException("Expected");
         })
             .subscribe(
@@ -53,7 +52,9 @@ public class RXToolTest {
     @Test
     public void executeBlockingShouldFailSingleOnFailure() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(1);
-        queryExecutor.executeBlocking(h -> h.fail("Expected"))
+        queryExecutor.executeBlocking(() -> {
+            throw new RuntimeException("Expected");
+        })
             .subscribe(
                 v -> {
                     throw new RuntimeException("Should not be called");

@@ -238,8 +238,8 @@ public class ReactiveRXGenericQueryExecutor extends AbstractReactiveQueryExecuto
                                 conn
                                         .rxPrepare(toPreparedQuery(query))
                                         .flatMapPublisher(preparedQuery -> preparedQuery.createStream(fetchSize).toFlowable())
-                                        .doAfterTerminate(() -> tx.getDelegate().commit(commitHandler))
-                                        .doAfterTerminate(() -> conn.getDelegate().close(closeHandler))
+                                        .doAfterTerminate(() -> tx.getDelegate().commit().onComplete(commitHandler))
+                                        .doAfterTerminate(() -> conn.getDelegate().close().onComplete(closeHandler))
                         )
                 );
     }

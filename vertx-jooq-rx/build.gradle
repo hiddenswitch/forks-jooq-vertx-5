@@ -1,0 +1,5 @@
+dependencies {
+  api project(':vertx-jooq-fork:vertx-jooq-shared')
+  api "io.reactivex.rxjava2:rxjava:2.2.21"
+  api "io.vertx:vertx-rx-java2:$vertxVersion"
+}

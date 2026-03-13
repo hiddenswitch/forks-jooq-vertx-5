@@ -1,0 +1,4 @@
+dependencies {
+  api project(':vertx-jooq-fork:vertx-jooq-rx')
+  api project(':vertx-jooq-fork:vertx-jooq-shared-reactive')
+}
