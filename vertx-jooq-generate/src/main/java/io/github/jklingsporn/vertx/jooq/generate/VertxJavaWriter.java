@@ -15,6 +15,12 @@ public class VertxJavaWriter extends JavaWriter {
     }
 
 
+    public VertxJavaWriter(File file, String fullyQualifiedTypes, String encoding,
+                           boolean javadoc, org.jooq.meta.jaxb.GeneratedSerialVersionUID serialVersionUID,
+                           org.jooq.codegen.GeneratorStrategy.Mode mode) {
+        super(file, fullyQualifiedTypes, encoding, javadoc, null, serialVersionUID, mode);
+    }
+
     @Override
     protected String beforeClose(String string) {
         return super.beforeClose(string);

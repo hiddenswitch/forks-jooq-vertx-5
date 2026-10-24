@@ -232,7 +232,13 @@ public abstract class VertxGenerator extends JavaGenerator {
 
     @Override
     protected JavaWriter newJavaWriter(File file) {
-        return new VertxJavaWriter(file, generateFullyQualifiedTypes(), targetEncoding);
+        return newJavaWriter(file, null);
+    }
+
+    @Override
+    protected JavaWriter newJavaWriter(File file, GeneratorStrategy.Mode mode) {
+        return new VertxJavaWriter(file, generateFullyQualifiedTypes(), targetEncoding,
+                generateJavadoc(), generatedSerialVersionUID(), mode);
     }
 
 

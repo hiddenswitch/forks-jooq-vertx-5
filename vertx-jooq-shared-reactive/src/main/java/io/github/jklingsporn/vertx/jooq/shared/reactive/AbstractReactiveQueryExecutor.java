@@ -3,6 +3,7 @@ package io.github.jklingsporn.vertx.jooq.shared.reactive;
 import io.github.jklingsporn.vertx.jooq.shared.internal.AbstractQueryExecutor;
 import io.github.jklingsporn.vertx.jooq.shared.postgres.PgConverter;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.Json;
 import io.vertx.sqlclient.Tuple;
 import io.vertx.sqlclient.internal.ArrayTuple;
 import org.slf4j.Logger;
@@ -60,7 +61,15 @@ public abstract class AbstractReactiveQueryExecutor extends AbstractQueryExecuto
         if(param.getBinding().converter() instanceof PgConverter){
             return ((PgConverter)param.getBinding().converter()).rowConverter().to(param.getValue());
         }
-        return param.getBinding().converter().to(param.getValue());
+        Object value = param.getBinding().converter().to(param.getValue());
+        // jOOQ can wrap a PgConverter, so its database value must still be
+        // adapted to the JSON values accepted by the reactive PostgreSQL driver.
+        if (value instanceof JSONB || value instanceof JSON) {
+            String json = value instanceof JSONB ? ((JSONB) value).data() : ((JSON) value).data();
+            Object decoded = Json.decodeValue(json);
+            return decoded == null ? Tuple.JSON_NULL : decoded;
+        }
+        return value;
     }
 
     protected void log(Query query) {

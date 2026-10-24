@@ -1,6 +1,6 @@
 dependencies {
   api project(':vertx-jooq-fork:vertx-jooq-shared')
-  api "org.jooq:jooq-codegen:3.17.3"
+  api "org.jooq:jooq-codegen:3.21.9"
 
   testImplementation project(':vertx-jooq-fork:vertx-jooq-classic-jdbc')
   testImplementation project(':vertx-jooq-fork:vertx-jooq-rx-jdbc')
